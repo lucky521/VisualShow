@@ -21,24 +21,24 @@ chart_options = {
 
     xAxis: {
         title:{
-            text: '月份'
+            text: ''
         },
         labels: {
-            //format:  '{value: %b, %Y}'
+            format:  '{value}月'
         },
         max: 12,
         min: 1,
         showEmpty: true,
         startOnTick: false,
         endOnTick: false,
-        tickPixelInterval: 50, //标度间隙
+        tickPixelInterval: 1, //标度间隙
     },
     yAxis: {
         title: {
             text: ''
         },
         labels: {
-            format: '{value}日'
+            format: '{value}'
         },
         max: 31,
         min: 1,
@@ -46,7 +46,7 @@ chart_options = {
         showEmpty: true,
         startOnTick: false,
         endOnTick: false,
-        tickPixelInterval: 50,
+        tickPixelInterval: 1,
         },
 
     colorAxis: {
@@ -64,7 +64,7 @@ chart_options = {
         
         tooltip: {
             headerFormat: '今日活动<br/>',
-            pointFormat: '{point.x} {point.y} {point.value} {point.name}'
+            pointFormat: '{point.x}月 {point.y}日 {point.name}'
         },
 
         point: {
@@ -76,23 +76,14 @@ chart_options = {
             },
         },
 
-        //month,day,value,name,url
-        //1,1,10,'baidu','www.baidu.com'
-        data: [{
-            x: 1,
-            y: 3,
-            value: 1,
-            name: "Lucky521",
-            url: "lucky521.github.com",
-            color: "#00FF00"
-        },
+        data: [
         {
             x: 5,
             y: 21,
             value: 11,
             name: "Lucky",
             url: "lucky521.github.com",
-            color: "#10FF11"
+            color: "#666362"
         }]
 
     }],
@@ -102,8 +93,14 @@ chart_options = {
 
 };
 
+function value_to_color(value)
+{
+return  "#" + Math.floor(Math.random() * 0xFFFFFF).toString(16);
+}
+
 $(document).ready(function() {
-    // load data from csv
+    // load data from csv 
+    // 这个函数的执行顺利
     $.get('data.csv', function(data) {
         // Split the lines
         var lines = data.split('\n');
@@ -122,16 +119,10 @@ $(document).ready(function() {
                 tmp['value'] = parseInt(items[2]);
                 tmp['name'] = String(items[3]);
                 tmp['url'] = String(items[4]);
-                tmp['color'] = "#00FF00";
+                tmp['color'] = value_to_color(tmp['value']);
                 chart_options.series[0]['data'].push(tmp);
             }
         }); // $.each(lines, function(lineNo, line)
-    }); // $.get('data.csv', function(data)
-
-    console.log(chart_options);
-    // build chart
-    $(function() {
         $('#container').highcharts(chart_options);
-    });
-
+    }); // $.get('data.csv', function(data)
 }); // $(document).ready(function()
