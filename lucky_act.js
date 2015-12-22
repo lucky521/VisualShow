@@ -104,7 +104,6 @@ $(document).ready(function() {
     $.get('data.csv', function(data) {
         // Split the lines
         var lines = data.split('\n');
-        var data = [];
         $.each(lines, function(lineNo, line) {
             // splict among ','
             var items = line.split(',');
